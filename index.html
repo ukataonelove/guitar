@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Гитарный трекер</title>
+<style>
+:root{
+  --bg:#14161a; --panel:#1d2026; --panel2:#262b33; --text:#e8eaed; --muted:#9aa3ad;
+  --accent:#ff8a3d; --accent-ink:#1a1206; --ok:#4cc38a; --danger:#ef6b6b; --line:#2e343d;
+}
+@media (prefers-color-scheme: light){
+  :root{ --bg:#f5f2ee; --panel:#ffffff; --panel2:#f0ece6; --text:#1d1f23; --muted:#6b7480;
+         --accent:#d9560b; --accent-ink:#ffffff; --ok:#1f8f5f; --danger:#c43d3d; --line:#e2ddd5; }
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:16px 16px 56px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:8px 0 16px}
+h1{font-size:22px;margin:0}
+.stats{display:flex;gap:8px;flex-wrap:wrap}
+.chip{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:14px;color:var(--muted)}
+.chip b{color:var(--text)}
+nav{display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:16px}
+nav button{flex:1;background:none;border:0;color:var(--muted);padding:9px 6px;border-radius:9px;font:inherit;cursor:pointer}
+nav button[aria-selected="true"]{background:var(--panel2);color:var(--text);font-weight:600}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+.filters{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+select,input[type=text],input[type=number],input[type=search]{
+  width:100%;background:var(--panel2);color:var(--text);border:1px solid var(--line);
+  border-radius:9px;padding:9px 10px;font:inherit}
+label.l{display:block;font-size:12px;color:var(--muted);margin-bottom:3px}
+button.btn{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:10px;
+  padding:9px 14px;font:inherit;cursor:pointer}
+button.btn:hover{border-color:var(--muted)}
+button.big{width:100%;background:var(--accent);color:var(--accent-ink);border:0;border-radius:12px;
+  padding:14px;font:inherit;font-size:18px;font-weight:700;cursor:pointer}
+button.big:hover{filter:brightness(1.08)}
+button.ok{background:var(--ok);color:#06150e;border:0;font-weight:600}
+button.danger{color:var(--danger)}
+.song h2{font-size:26px;margin:0 0 2px;line-height:1.2}
+.song .by{color:var(--muted);margin-bottom:10px}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.tag{background:var(--panel2);border-radius:7px;padding:2px 9px;font-size:13px;color:var(--muted)}
+.links{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.links a{color:var(--accent);text-decoration:none;border:1px solid var(--line);border-radius:9px;padding:6px 11px;font-size:14px}
+.links a:hover{border-color:var(--accent)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end}
+.row .grow{flex:1;min-width:120px}
+.empty{color:var(--muted);text-align:center;padding:18px 0}
+.list{display:flex;flex-direction:column}
+.item{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:0}
+.item .t{flex:1;min-width:0}
+.item .t div:first-child{font-weight:600;overflow:hidden;text-overflow:ellipsis}
+.item .t div:last-child{color:var(--muted);font-size:13px}
+.item select{width:auto}
+.dots{letter-spacing:2px;color:var(--accent)}
+.add{display:grid;grid-template-columns:2fr 2fr 1fr 1.4fr auto;gap:8px;align-items:end}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+h3{margin:0 0 10px;font-size:16px}
+#toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--panel2);
+  border:1px solid var(--line);border-radius:10px;padding:10px 16px;opacity:0;pointer-events:none;
+  transition:opacity .2s;max-width:90vw}
+#toast.on{opacity:1}
+#dlg{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:16px;z-index:10}
+#dlg.on{display:flex}
+#dlg .box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;max-width:380px;width:100%}
+#dlg p{margin:0 0 14px}
+#dlg .row{justify-content:flex-end}
+textarea{width:100%;margin-top:8px;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:9px;padding:9px;font:inherit}
+@media (max-width:560px){
+  .filters{grid-template-columns:1fr}
+  .add{grid-template-columns:1fr 1fr}
+  .add button{grid-column:1/-1}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🎸 Гитара</h1>
+    <div class="stats" id="stats"></div>
+  </header>
+  <nav id="tabs" role="tablist">
+    <button role="tab" data-tab="play">Играть</button>
+    <button role="tab" data-tab="lib">Библиотека</button>
+    <button role="tab" data-tab="hist">История</button>
+  </nav>
+  <main id="view"></main>
+</div>
+<div id="toast" role="status"></div>
+<div id="dlg" role="dialog" aria-modal="true">
+  <div class="box"><p id="dlgText"></p>
+    <div class="row"><button class="btn" id="dlgNo" type="button">Отмена</button><button class="btn ok" id="dlgYes" type="button">Да</button></div>
+  </div>
+</div>
+
+<script>
+"use strict";
+const KEY = "guitar-tracker-v1";
+const LEVELS = {1: "Лёгкая", 2: "Средняя", 3: "Сложная"};
+const STATUS = {new: "Не учил", learning: "Учу", learned: "Выучил"};
+
+// [название, исполнитель, сложность 1-3 (приблизительно), жанр]
+const SEED = [
+  ["Smoke on the Water","Deep Purple",1,"Рок"],
+  ["Seven Nation Army","The White Stripes",1,"Рок"],
+  ["Back in Black","AC/DC",1,"Рок"],
+  ["Highway to Hell","AC/DC",1,"Рок"],
+  ["Knockin' on Heaven's Door","Bob Dylan",1,"Рок"],
+  ["Wonderwall","Oasis",1,"Рок"],
+  ["Wish You Were Here","Pink Floyd",2,"Рок"],
+  ["Sultans of Swing","Dire Straits",3,"Рок"],
+  ["Hotel California","Eagles",3,"Рок"],
+  ["Stairway to Heaven","Led Zeppelin",3,"Рок"],
+  ["Sweet Child O' Mine","Guns N' Roses",3,"Рок"],
+  ["Smells Like Teen Spirit","Nirvana",1,"Гранж"],
+  ["Come as You Are","Nirvana",1,"Гранж"],
+  ["Paranoid","Black Sabbath",1,"Метал"],
+  ["Iron Man","Black Sabbath",2,"Метал"],
+  ["Crazy Train","Ozzy Osbourne",2,"Метал"],
+  ["Enter Sandman","Metallica",2,"Метал"],
+  ["Nothing Else Matters","Metallica",2,"Метал"],
+  ["Fade to Black","Metallica",3,"Метал"],
+  ["Master of Puppets","Metallica",3,"Метал"],
+  ["The Trooper","Iron Maiden",2,"Метал"],
+  ["Ace of Spades","Motörhead",2,"Метал"],
+  ["Painkiller","Judas Priest",3,"Метал"],
+  ["Du Hast","Rammstein",1,"Метал"],
+  ["Duality","Slipknot",2,"Метал"],
+  ["Chop Suey!","System of a Down",2,"Метал"],
+  ["Toxicity","System of a Down",2,"Метал"],
+  ["Wake Me Up When September Ends","Green Day",1,"Панк"],
+  ["Basket Case","Green Day",2,"Панк"],
+  ["Группа крови","Кино",1,"Русский рок"],
+  ["Звезда по имени Солнце","Кино",1,"Русский рок"],
+  ["Кукушка","Кино",1,"Русский рок"],
+  ["Пачка сигарет","Кино",1,"Русский рок"],
+  ["Лесник","Король и Шут",1,"Русский рок"],
+  ["Кукла колдуна","Король и Шут",2,"Русский рок"],
+  ["Прыгну со скалы","Король и Шут",2,"Русский рок"],
+  ["Скованные одной цепью","Наутилус Помпилиус",1,"Русский рок"],
+  ["Я хочу быть с тобой","Наутилус Помпилиус",1,"Русский рок"],
+  ["Что такое осень","ДДТ",1,"Русский рок"],
+  ["Выхода нет","Сплин",1,"Русский рок"],
+  ["Всё идёт по плану","Гражданская оборона",1,"Русский рок"],
+  ["The Thrill Is Gone","B.B. King",2,"Блюз"],
+  ["Pride and Joy","Stevie Ray Vaughan",3,"Блюз"],
+  ["Crossroads","Cream",3,"Блюз"],
+  ["Hallelujah","Leonard Cohen",1,"Акустика"],
+  ["Greensleeves","Народная",2,"Акустика"],
+  ["Romance (Spanish Romance)","Народная",3,"Акустика"]
+];
+
+function fresh(){
+  return {
+    songs: SEED.map((s,i)=>({id:"s"+i,title:s[0],artist:s[1],level:s[2],genre:s[3],status:"new"})),
+    log: [], recent: [], currentId: null, nextId: SEED.length,
+    filters: {level:"", genre:"", status:""}, lastMin: 15
+  };
+}
+function load(){
+  try{
+    const raw = localStorage.getItem(KEY);
+    if(raw){
+      const d = JSON.parse(raw);
+      if(d && Array.isArray(d.songs) && Array.isArray(d.log)){
+        return Object.assign(fresh(), d, {filters: Object.assign({level:"",genre:"",status:""}, d.filters||{})});
+      }
+    }
+  }catch(e){}
+  return fresh();
+}
+let S = load();
+let tab = "play";
+let libQuery = "";
+
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify(S)); }
+  catch(e){ toast("Не удалось сохранить: браузер блокирует хранилище"); }
+}
+function esc(s){
+  return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+const $ = sel => document.querySelector(sel);
+function pad(n){ return String(n).padStart(2,"0"); }
+function fmt(d){ return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate()); }
+function songById(id){ return S.songs.find(s=>s.id===id); }
+let toastTimer;
+function toast(msg){
+  const t = $("#toast"); t.textContent = msg; t.classList.add("on");
+  clearTimeout(toastTimer); toastTimer = setTimeout(()=>t.classList.remove("on"), 2200);
+}
+
+/* своё окно подтверждения: confirm() в песочнице блокируется */
+function ask(msg){
+  return new Promise(res=>{
+    const d = $("#dlg");
+    $("#dlgText").textContent = msg;
+    d.classList.add("on");
+    const done = v => { d.classList.remove("on"); $("#dlgYes").onclick = $("#dlgNo").onclick = null; res(v); };
+    $("#dlgYes").onclick = () => done(true);
+    $("#dlgNo").onclick = () => done(false);
+  });
+}
+function applyImport(text){
+  try{
+    const d = JSON.parse(text);
+    if(!d || !Array.isArray(d.songs) || !Array.isArray(d.log)) throw new Error("bad");
+    S = Object.assign(fresh(), d, {filters: Object.assign({level:"",genre:"",status:""}, d.filters||{})});
+    save(); render(); toast("Копия загружена");
+  }catch(err){ toast("Копия не подошла"); }
+}
+
+/* ---------- статистика ---------- */
+function stats(){
+  const days = new Set(S.log.map(e=>e.date));
+  const d = new Date();
+  if(!days.has(fmt(d))) d.setDate(d.getDate()-1);
+  let streak = 0;
+  while(days.has(fmt(d))){ streak++; d.setDate(d.getDate()-1); }
+  const from = new Date(); from.setDate(from.getDate()-6);
+  const weekMin = S.log.filter(e=>e.date >= fmt(from)).reduce((a,e)=>a+(e.minutes||0),0);
+  return {streak, weekMin, total: S.log.length};
+}
+function renderStats(){
+  const s = stats();
+  $("#stats").innerHTML =
+    `<span class="chip">🔥 серия <b>${s.streak}</b> дн.</span>` +
+    `<span class="chip">⏱ за неделю <b>${s.weekMin}</b> мин</span>` +
+    `<span class="chip">занятий <b>${s.total}</b></span>`;
+}
+
+/* ---------- случайный выбор ---------- */
+function pool(){
+  const f = S.filters;
+  return S.songs.filter(s =>
+    (!f.level || String(s.level)===f.level) &&
+    (!f.genre || s.genre===f.genre) &&
+    (!f.status || s.status===f.status));
+}
+function pick(){
+  let p = pool();
+  if(!p.length) return null;
+  const fresh = p.filter(s=>!S.recent.includes(s.id));
+  if(fresh.length) p = fresh;           // не повторяем последние 5 песен
+  const w = {learning:3, new:2, learned:1};
+  const weights = p.map(s=>w[s.status]||1);
+  let r = Math.random()*weights.reduce((a,b)=>a+b,0);
+  for(let i=0;i<p.length;i++){ r -= weights[i]; if(r<=0) return p[i]; }
+  return p[p.length-1];
+}
+
+/* ---------- отрисовка ---------- */
+function dots(l){ return `<span class="dots" title="${LEVELS[l]||""}">${"●".repeat(l)}${"○".repeat(3-l)}</span>`; }
+function links(s){
+  const q = encodeURIComponent(s.title+" "+s.artist);
+  return `<a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=${q}" target="_blank" rel="noopener">🎼 Табы / аккорды</a>` +
+         `<a href="https://www.songsterr.com/?pattern=${q}" target="_blank" rel="noopener">🎸 Songsterr</a>` +
+         `<a href="https://www.youtube.com/results?search_query=${q}+guitar+lesson" target="_blank" rel="noopener">▶ Разбор на YouTube</a>`;
+}
+function options(map, cur, anyLabel){
+  let h = `<option value="">${anyLabel}</option>`;
+  for(const k in map) h += `<option value="${k}"${String(cur)===k?" selected":""}>${esc(map[k])}</option>`;
+  return h;
+}
+function genres(){ return [...new Set(S.songs.map(s=>s.genre))].sort((a,b)=>a.localeCompare(b,"ru")); }
+
+function viewPlay(){
+  const f = S.filters;
+  const gmap = {}; genres().forEach(g=>gmap[g]=g);
+  const cur = songById(S.currentId);
+  let card;
+  if(cur){
+    card = `<section class="card song">
+      <h2>${esc(cur.title)}</h2>
+      <div class="by">${esc(cur.artist)}</div>
+      <div class="tags">
+        <span class="tag">${dots(cur.level)} ${LEVELS[cur.level]||""}</span>
+        <span class="tag">${esc(cur.genre)}</span>
+        <span class="tag">${STATUS[cur.status]}</span>
+      </div>
+      <div class="links">${links(cur)}</div>
+      <div class="row">
+        <div style="width:110px"><label class="l" for="min">Минут</label>
+          <input type="number" id="min" min="1" max="600" value="${S.lastMin}"></div>
+        <button class="btn ok" data-a="played">✅ Сыграл</button>
+        <button class="btn" data-a="roll">🔁 Другую</button>
+        <button class="btn" data-a="st-learning">📌 Учу</button>
+        <button class="btn" data-a="st-learned">🏆 Выучил</button>
+      </div></section>`;
+  } else {
+    card = `<section class="card"><div class="empty">Нажми «Дай песню», и я выберу, что играть.</div></section>`;
+  }
+  return `<section class="card">
+      <div class="filters">
+        <div><label class="l" for="fLevel">Сложность</label><select id="fLevel">${options(LEVELS,f.level,"Любая")}</select></div>
+        <div><label class="l" for="fGenre">Жанр</label><select id="fGenre">${options(gmap,f.genre,"Любой")}</select></div>
+        <div><label class="l" for="fStatus">Статус</label><select id="fStatus">${options(STATUS,f.status,"Любой")}</select></div>
+      </div>
+      <button class="big" data-a="roll">🎲 Дай песню</button>
+    </section>${card}
+    <section class="card">
+      <h3>Позаниматься без песни</h3>
+      <div class="row">
+        <div class="grow"><label class="l" for="qmin">Минут (разминка, гаммы, импровизация)</label>
+          <input type="number" id="qmin" min="1" max="600" value="${S.lastMin}"></div>
+        <button class="btn" data-a="practice">Записать занятие</button>
+      </div></section>`;
+}
+
+function libList(){
+  const q = libQuery.trim().toLowerCase();
+  const list = S.songs.filter(s => !q || (s.title+" "+s.artist+" "+s.genre).toLowerCase().includes(q));
+  if(!list.length) return `<div class="empty">Ничего не найдено.</div>`;
+  return `<div class="list">` + list.map(s=>`
+    <div class="item">
+      <div class="t"><div>${esc(s.title)}</div><div>${esc(s.artist)} · ${esc(s.genre)} · ${dots(s.level)}</div></div>
+      <select data-st="${s.id}" aria-label="Статус">${
+        Object.keys(STATUS).map(k=>`<option value="${k}"${s.status===k?" selected":""}>${STATUS[k]}</option>`).join("")}</select>
+      <button class="btn danger" data-del="${s.id}" aria-label="Удалить">✕</button>
+    </div>`).join("") + `</div>`;
+}
+function viewLib(){
+  return `<section class="card">
+      <h3>Добавить песню</h3>
+      <form class="add" id="addForm">
+        <div><label class="l" for="aT">Название</label><input type="text" id="aT" required></div>
+        <div><label class="l" for="aA">Исполнитель</label><input type="text" id="aA"></div>
+        <div><label class="l" for="aL">Сложность</label><select id="aL">
+          <option value="1">Лёгкая</option><option value="2" selected>Средняя</option><option value="3">Сложная</option></select></div>
+        <div><label class="l" for="aG">Жанр</label><input type="text" id="aG" list="gl" placeholder="Рок">
+          <datalist id="gl">${genres().map(g=>`<option value="${esc(g)}">`).join("")}</datalist></div>
+        <button class="btn" type="submit">Добавить</button>
+      </form></section>
+    <section class="card">
+      <input type="search" id="q" placeholder="Поиск по названию, исполнителю, жанру" value="${esc(libQuery)}">
+      <div id="libList">${libList()}</div>
+    </section>`;
+}
+
+function viewHist(){
+  const items = [...S.log].reverse().slice(0,100);
+  const rows = items.length ? `<div class="list">` + items.map(e=>{
+    const s = e.songId ? songById(e.songId) : null;
+    const title = e.type==="practice" ? "Занятие без песни" : (s ? s.title : "Песня удалена");
+    const sub = e.type==="practice" ? "" : (s ? " · "+esc(s.artist) : "");
+    return `<div class="item"><div class="t"><div>${esc(title)}</div>
+      <div>${esc(e.date)}${sub}</div></div><div>${e.minutes||0} мин</div></div>`;
+  }).join("") + `</div>` : `<div class="empty">Пока пусто. Сыграй первую песню.</div>`;
+  return `<section class="card"><h3>История занятий</h3>${rows}</section>
+    <section class="card"><h3>Данные</h3>
+      <div class="tools">
+        <button class="btn" data-a="export">⬇ Экспорт копии</button>
+        <button class="btn" data-a="import">⬆ Импорт копии</button>
+        <button class="btn danger" data-a="reset">Сбросить всё</button>
+      </div>
+      <input type="file" id="file" accept="application/json" hidden>
+      <details style="margin-top:10px"><summary style="cursor:pointer;color:var(--muted)">Импорт из текста</summary>
+        <textarea id="paste" rows="4" placeholder="Вставь сюда скопированную копию"></textarea>
+        <button class="btn" data-a="importText" type="button" style="margin-top:8px">Загрузить из текста</button>
+      </details>
+      <p style="color:var(--muted);font-size:13px;margin:10px 0 0">Данные хранятся в этом браузере. Делай экспорт, если чистишь браузер или меняешь компьютер.</p>
+    </section>`;
+}
+
+function render(){
+  document.querySelectorAll("#tabs button").forEach(b=>b.setAttribute("aria-selected", String(b.dataset.tab===tab)));
+  $("#view").innerHTML = tab==="play" ? viewPlay() : tab==="lib" ? viewLib() : viewHist();
+  renderStats();
+}
+
+/* ---------- действия ---------- */
+function addLog(type, songId, minutes){
+  const m = Math.max(1, Math.min(600, parseInt(minutes,10)||S.lastMin||15));
+  S.lastMin = m;
+  S.log.push({date: fmt(new Date()), ts: Date.now(), type, songId: songId||null, minutes: m});
+}
+const actions = {
+  roll(){
+    const s = pick();
+    if(!s){ toast("Нет песен под эти фильтры"); return; }
+    S.currentId = s.id;
+    S.recent = [s.id, ...S.recent.filter(x=>x!==s.id)].slice(0,5);
+    save(); render();
+  },
+  played(){
+    const cur = songById(S.currentId); if(!cur) return;
+    addLog("played", cur.id, $("#min").value);
+    if(cur.status==="new") cur.status = "learning";
+    save(); render(); toast("Записано: "+cur.title);
+  },
+  "st-learning"(){ setStatus("learning"); },
+  "st-learned"(){ setStatus("learned"); },
+  practice(){
+    addLog("practice", null, $("#qmin").value);
+    save(); render(); toast("Занятие записано");
+  },
+  export(){
+    const blob = new Blob([JSON.stringify(S,null,2)], {type:"application/json"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "guitar-tracker-backup-"+fmt(new Date())+".json";
+    a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+    // скачивание в некоторых окнах блокируется, поэтому копируем ещё и в буфер
+    try{
+      navigator.clipboard.writeText(JSON.stringify(S)).then(()=>toast("Копия скопирована в буфер"), ()=>{});
+    }catch(e){}
+  },
+  import(){ $("#file").click(); },
+  importText(){ applyImport($("#paste").value); },
+  reset(){
+    ask("Удалить всю историю и вернуть список песен по умолчанию?").then(ok=>{
+      if(ok){ S = fresh(); save(); render(); toast("Сброшено"); }
+    });
+  }
+};
+function setStatus(st){
+  const cur = songById(S.currentId); if(!cur) return;
+  cur.status = st; save(); render(); toast(cur.title+": "+STATUS[st]);
+}
+
+document.addEventListener("click", e=>{
+  const t = e.target.closest("[data-tab],[data-a],[data-del]");
+  if(!t) return;
+  if(t.dataset.tab){ tab = t.dataset.tab; render(); return; }
+  if(t.dataset.del){
+    const s = songById(t.dataset.del);
+    if(s){
+      ask("Удалить «"+s.title+"» из библиотеки?").then(ok=>{
+        if(!ok) return;
+        S.songs = S.songs.filter(x=>x.id!==s.id);
+        S.recent = S.recent.filter(x=>x!==s.id);
+        if(S.currentId===s.id) S.currentId = null;
+        save(); render();
+      });
+    }
+    return;
+  }
+  const fn = actions[t.dataset.a]; if(fn) fn();
+});
+document.addEventListener("change", e=>{
+  const t = e.target;
+  if(t.id==="fLevel"||t.id==="fGenre"||t.id==="fStatus"){
+    S.filters[t.id.slice(1).toLowerCase()] = t.value; save(); return;
+  }
+  if(t.dataset && t.dataset.st){
+    const s = songById(t.dataset.st); if(s){ s.status = t.value; save(); }
+    return;
+  }
+  if(t.id==="file" && t.files[0]){
+    const r = new FileReader();
+    r.onload = () => applyImport(r.result);
+    r.readAsText(t.files[0]);
+  }
+});
+document.addEventListener("input", e=>{
+  if(e.target.id==="q"){ libQuery = e.target.value; $("#libList").innerHTML = libList(); }
+});
+document.addEventListener("submit", e=>{
+  if(e.target.id!=="addForm") return;
+  e.preventDefault();
+  const title = $("#aT").value.trim(); if(!title) return;
+  S.songs.push({
+    id: "u"+(S.nextId++), title,
+    artist: $("#aA").value.trim() || "—",
+    level: parseInt($("#aL").value,10) || 2,
+    genre: $("#aG").value.trim() || "Другое",
+    status: "new"
+  });
+  save(); render(); toast("Добавлено: "+title);
+});
+
+render();
+</script>
+</body>
+</html>
