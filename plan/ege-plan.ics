@@ -7,16 +7,17 @@ X-WR-CALNAME:Подготовка к ИС и ЕГЭ
 X-WR-TIMEZONE:Asia/Vladivostok
 BEGIN:VEVENT
 UID:ege-plan-2026-11-13@darrell.local
-DTSTAMP:20261112T104632Z
+DTSTAMP:20261113T123848Z
 DTSTART;VALUE=DATE:20261113
 DTEND;VALUE=DATE:20261114
 SUMMARY:Подготовка: ИС + Мат
-DESCRIPTION:Пт\, школа: Геометрия\, часть 2 (план
- иметрия): подобие\, окружность\, 2 задачи 
- с разбором. ИС: переписать сочинение «Ис
- кусство и человек» (метро и люди-книги и
- з «451»\, Ионыч\, вывод к тезису)\, 350+ слов\, 
- скинуть на проверку.
+DESCRIPTION:Пт\, школа\, лёгкий день: Одно главн
+ ое дело: переписать сочинение «Искусств
+ о и человек» (метро и люди-книги из «451»\, 
+ Ионыч\, вывод к тезису)\, 350+ слов\, скинуть
+  на проверку. Плюс 40 минут геометрии (пла
+ ниметрия: подобие\, 2 задачи). Больше ниче
+ го. Отбой 23:00-23:30.
 TRANSP:TRANSPARENT
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -26,84 +27,84 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:ege-plan-2026-11-14@darrell.local
-DTSTAMP:20261112T104632Z
+DTSTAMP:20261113T123848Z
 DTSTART;VALUE=DATE:20261114
 DTEND;VALUE=DATE:20261115
-SUMMARY:Подготовка: ИС + Мат + Физ
-DESCRIPTION:Сб: ИС: прочитать «Телеграмму» (Па
- устовский\, 10 мин) и «Куст сирени» (Купри
- н\, 15 мин)\, скинуть по 3 строки. Геометрия:
-  стереометрия часть 2\, 2 задачи. Физика: М
- КТ\, формулы и изопроцессы.
+SUMMARY:Подготовка: Физ
+DESCRIPTION:Сб\, школа до 14:05: После школы макси
+ мум 1\,5 часа: прочитать «Телеграмму» (Пау
+ стовский\, 10 мин)\, физика МКТ (формулы и и
+ зопроцессы\, 1 ч). Вечер свободный. Отбой 2
+ 3:00-23:30.
 TRANSP:TRANSPARENT
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Подготовка: ИС + Мат + Физ
+DESCRIPTION:Подготовка: Физ
 TRIGGER;RELATED=START:PT8H
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:ege-plan-2026-11-15@darrell.local
-DTSTAMP:20261112T104632Z
+DTSTAMP:20261113T123848Z
 DTSTART;VALUE=DATE:20261115
 DTEND;VALUE=DATE:20261116
-SUMMARY:Подготовка: ИС + Рус
-DESCRIPTION:Вс\, лёгкий: 30 минут чтения («Челов
- ек в футляре»)\, гитара\, китайский 15 мину
- т. Русский: орфография\, 10 заданий в ege-app.
+SUMMARY:Репа
+DESCRIPTION:Вс\, реп. точка: Репетиция с другом 
+ и барабанщицей\, это отдых. Из учёбы толь
+ ко китайский 15 минут. Больше ничего.
 TRANSP:TRANSPARENT
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Подготовка: ИС + Рус
+DESCRIPTION:Репа
 TRIGGER;RELATED=START:PT8H
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:ege-plan-2026-11-16@darrell.local
-DTSTAMP:20261112T104632Z
+DTSTAMP:20261113T123848Z
 DTSTART;VALUE=DATE:20261116
 DTEND;VALUE=DATE:20261117
-SUMMARY:Подготовка: ИС + Мат + Физ + Рус
-DESCRIPTION:Пн\, каникулы: ИС 1 ч: «Человек в фут
- ляре» и карточки аргументов. Математика
-  2 ч: планиметрия\, 6-8 задач. Физика 2 ч: МКТ
-  и термодинамика. Русский 45 мин: орфогра
- фия.
+SUMMARY:Отдых
+DESCRIPTION:Пн\, ОТДЫХ: Полный отдых первого дн
+ я каникул. Спать до 9-10\, выйти на 20 минут 
+ на свет\, гитара\, друзья. Никакой учёбы. 
+ Максимум китайский 15 минут\, если захоче
+ тся.
 TRANSP:TRANSPARENT
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Подготовка: ИС + Мат + Физ + Рус
+DESCRIPTION:Отдых
 TRIGGER;RELATED=START:PT8H
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:ege-plan-2026-11-17@darrell.local
-DTSTAMP:20261112T104632Z
+DTSTAMP:20261113T123848Z
 DTSTART;VALUE=DATE:20261117
 DTEND;VALUE=DATE:20261118
-SUMMARY:Подготовка: ИС + Мат + Физ + Рус
-DESCRIPTION:Вт: ИС: «Господин из Сан-Франциско
- » (40 мин) + аргумент одной фразой. Математ
- ика 2 ч: стереометрия. Физика 2 ч: термоди
- намика\, задачи. Русский 45 мин: пунктуаци
- я.
+SUMMARY:Отдых
+DESCRIPTION:Вт\, ОТДЫХ: Второй день отдыха. Опц
+ ионально 30 минут: почитать «Господина и
+ з Сан-Франциско» (без конспектов). Всё ос
+ тальное свободно.
 TRANSP:TRANSPARENT
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Подготовка: ИС + Мат + Физ + Рус
+DESCRIPTION:Отдых
 TRIGGER;RELATED=START:PT8H
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:ege-plan-2026-11-18@darrell.local
-DTSTAMP:20261112T104632Z
+DTSTAMP:20261113T123848Z
 DTSTART;VALUE=DATE:20261118
 DTEND;VALUE=DATE:20261119
 SUMMARY:Подготовка: ИС + Мат + Физ
-DESCRIPTION:Ср: ИС: сочинение №3 на время (2 ч)\, 
- потом разбор по К1-К5. Физика 2 ч: электрос
- татика. Математика 1\,5 ч: текстовые задач
- и и производная.
+DESCRIPTION:Ср\, 3\,5 ч: ИС 1 ч: «Человек в футляре
+ » и «Господин из Сан-Франциско»\, аргуме
+ нт одной фразой. Математика 1\,5 ч: планим
+ етрия\, 6 задач. Физика 1 ч: МКТ и термодин
+ амика. Отбой 23:00-23:30.
 TRANSP:TRANSPARENT
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -113,79 +114,79 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:ege-plan-2026-11-19@darrell.local
-DTSTAMP:20261112T104632Z
+DTSTAMP:20261113T123848Z
 DTSTART;VALUE=DATE:20261119
 DTEND;VALUE=DATE:20261120
-SUMMARY:Подготовка: ИС + Мат + Физ
-DESCRIPTION:Чт: ИС: «Капитанская дочка» (кратк
- ое содержание + 1 ключевой эпизод)\, аргум
- ент. Математика 2 ч: часть 2\, неравенства 
- (ОДЗ!). Физика 2 ч: постоянный ток.
+SUMMARY:Подготовка: ИС + Физ
+DESCRIPTION:Чт\, 4 ч: ИС: сочинение №3 на время (2 
+ ч)\, потом разбор по К1-К5 (30 мин). Физика 1\,5
+  ч: термодинамика\, задачи. Отбой 23:00-23:30.
 TRANSP:TRANSPARENT
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Подготовка: ИС + Мат + Физ
+DESCRIPTION:Подготовка: ИС + Физ
 TRIGGER;RELATED=START:PT8H
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:ege-plan-2026-11-20@darrell.local
-DTSTAMP:20261112T104632Z
+DTSTAMP:20261113T123848Z
 DTSTART;VALUE=DATE:20261120
 DTEND;VALUE=DATE:20261121
-SUMMARY:Подготовка: ИС + Мат + Физ + Рус
-DESCRIPTION:Пт: ИС: сочинение №4 на другую тему
- \, разбор. Математика 1\,5 ч: геометрия\, за
- крепление. Физика 2 ч: магнетизм и индукц
- ия. Русский 45 мин: нормы (ударения\, парон
- имы).
+SUMMARY:Подготовка: ИС + Мат + Рус
+DESCRIPTION:Пт\, 4 ч: Математика 2 ч: стереометри
+ я и неравенства (ОДЗ!). ИС 40 мин: «Капитан
+ ская дочка» (краткое содержание + 1 ключе
+ вой эпизод)\, аргумент. Русский 30 мин: нор
+ мы (ударения\, паронимы). Отбой 23:00-23:30.
 TRANSP:TRANSPARENT
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Подготовка: ИС + Мат + Физ + Рус
+DESCRIPTION:Подготовка: ИС + Мат + Рус
 TRIGGER;RELATED=START:PT8H
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:ege-plan-2026-11-21@darrell.local
-DTSTAMP:20261112T104632Z
+DTSTAMP:20261113T123848Z
 DTSTART;VALUE=DATE:20261121
 DTEND;VALUE=DATE:20261122
-SUMMARY:Подготовка: ИС + Мат + Физ
-DESCRIPTION:Сб: Физика 2 ч: оптика и квантовая (
- основы). Математика: вариант части 1 на в
- ремя (60-90 мин). ИС: шпаргалка «произведен
- ие -> темы -> аргумент одной фразой».
+SUMMARY:Подготовка: Мат + Физ
+DESCRIPTION:Сб\, полдня: Физика 1\,5 ч: электрост
+ атика. Математика: вариант части 1 на вре
+ мя (60-90 мин). Вечер свободный.
 TRANSP:TRANSPARENT
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Подготовка: ИС + Мат + Физ
+DESCRIPTION:Подготовка: Мат + Физ
 TRIGGER;RELATED=START:PT8H
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:ege-plan-2026-11-22@darrell.local
-DTSTAMP:20261112T104632Z
+DTSTAMP:20261113T123848Z
 DTSTART;VALUE=DATE:20261122
 DTEND;VALUE=DATE:20261123
-SUMMARY:Подготовка
-DESCRIPTION:Вс\, выходной: Выходной. Максимум 30
-  минут: перечитать шпаргалку по ИС.
+SUMMARY:Отдых
+DESCRIPTION:Вс\, ВЫХОДНОЙ: Выходной. Максимум 20
+  минут: перечитать шпаргалку «произведе
+ ние -> темы -> аргумент одной фразой».
 TRANSP:TRANSPARENT
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Подготовка
+DESCRIPTION:Отдых
 TRIGGER;RELATED=START:PT8H
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:ege-plan-2026-11-23@darrell.local
-DTSTAMP:20261112T104632Z
+DTSTAMP:20261113T123848Z
 DTSTART;VALUE=DATE:20261123
 DTEND;VALUE=DATE:20261124
 SUMMARY:Подготовка: ИС + Мат + Рус
-DESCRIPTION:Пн\, школа: ИС: сочинение №5\, разбо
- р. Математика 1 ч. Русский 30 мин.
+DESCRIPTION:Пн\, школа: ИС: сочинение №4 на друг
+ ую тему\, разбор. Математика 1 ч. Русский 3
+ 0 мин. Отбой 23:00-23:30.
 TRANSP:TRANSPARENT
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -195,13 +196,13 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:ege-plan-2026-11-24@darrell.local
-DTSTAMP:20261112T104632Z
+DTSTAMP:20261113T123848Z
 DTSTART;VALUE=DATE:20261124
 DTEND;VALUE=DATE:20261125
 SUMMARY:Подготовка: ИС + Физ
 DESCRIPTION:Вт: Физика 1 ч: задачи по электриче
  ству и МКТ. ИС: 30 минут повторения аргуме
- нтов.
+ нтов. Отбой 23:00-23:30.
 TRANSP:TRANSPARENT
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -211,12 +212,13 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:ege-plan-2026-11-25@darrell.local
-DTSTAMP:20261112T104632Z
+DTSTAMP:20261113T123848Z
 DTSTART;VALUE=DATE:20261125
 DTEND;VALUE=DATE:20261126
 SUMMARY:Подготовка: ИС + Мат
-DESCRIPTION:Ср: ИС: сочинение №6 на время\, разб
- ор. Математика 1 ч: геометрия\, часть 2.
+DESCRIPTION:Ср: ИС: сочинение №5 на время\, разб
+ ор. Математика 1 ч: геометрия\, часть 2. От
+ бой 23:00-23:30.
 TRANSP:TRANSPARENT
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -226,12 +228,12 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:ege-plan-2026-11-26@darrell.local
-DTSTAMP:20261112T104632Z
+DTSTAMP:20261113T123848Z
 DTSTART;VALUE=DATE:20261126
 DTEND;VALUE=DATE:20261127
 SUMMARY:Подготовка: Мат + Рус
 DESCRIPTION:Чт: Математика: вариант части 1 + ра
- збор ошибок. Русский 45 мин.
+ збор ошибок. Русский 45 мин. Отбой 23:00-23:30.
 TRANSP:TRANSPARENT
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -241,7 +243,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:ege-plan-2026-11-27@darrell.local
-DTSTAMP:20261112T104632Z
+DTSTAMP:20261113T123848Z
 DTSTART;VALUE=DATE:20261127
 DTEND;VALUE=DATE:20261128
 SUMMARY:Подготовка: ИС
@@ -257,7 +259,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:ege-plan-2026-11-28@darrell.local
-DTSTAMP:20261112T104632Z
+DTSTAMP:20261113T123848Z
 DTSTART;VALUE=DATE:20261128
 DTEND;VALUE=DATE:20261129
 SUMMARY:Подготовка: ИС
@@ -273,22 +275,22 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:ege-plan-2026-11-29@darrell.local
-DTSTAMP:20261112T104632Z
+DTSTAMP:20261113T123848Z
 DTSTART;VALUE=DATE:20261129
 DTEND;VALUE=DATE:20261130
-SUMMARY:Подготовка
-DESCRIPTION:Вс\, выходной: Выходной. Максимум 30
+SUMMARY:Отдых
+DESCRIPTION:Вс\, ВЫХОДНОЙ: Выходной. Максимум 30
   минут: повторить шпаргалку.
 TRANSP:TRANSPARENT
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Подготовка
+DESCRIPTION:Отдых
 TRIGGER;RELATED=START:PT8H
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:ege-plan-2026-11-30@darrell.local
-DTSTAMP:20261112T104632Z
+DTSTAMP:20261113T123848Z
 DTSTART;VALUE=DATE:20261130
 DTEND;VALUE=DATE:20261201
 SUMMARY:Подготовка: ИС
@@ -303,7 +305,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:ege-plan-2026-12-01@darrell.local
-DTSTAMP:20261112T104632Z
+DTSTAMP:20261113T123848Z
 DTSTART;VALUE=DATE:20261201
 DTEND;VALUE=DATE:20261202
 SUMMARY:Подготовка
@@ -318,7 +320,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:ege-plan-2026-12-02@darrell.local
-DTSTAMP:20261112T104632Z
+DTSTAMP:20261113T123848Z
 DTSTART;VALUE=DATE:20261202
 DTEND;VALUE=DATE:20261203
 SUMMARY:ИТОГОВОЕ СОЧИНЕНИЕ
